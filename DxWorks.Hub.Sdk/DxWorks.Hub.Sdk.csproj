@@ -9,7 +9,7 @@
         <PackageReleaseNotes>ReleaseNotes.md</PackageReleaseNotes>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageProjectUrl>https://github.com/dxworks/dxworks-hub-sdk/tree/master/DxWorks.Hub.Sdk</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/dxworks/dxworks-hub-sdk/tree/main/DxWorks.Hub.Sdk</PackageProjectUrl>
         <RepositoryUrl>https://github.com/dxworks/dxworks-hub-sdk</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <Version>1.0.0</Version>
