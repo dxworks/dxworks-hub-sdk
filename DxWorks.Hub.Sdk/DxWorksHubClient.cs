@@ -1,9 +1,10 @@
-﻿using DxWorks.Hub.Sdk.Project;
+﻿using DxWorks.Hub.Sdk.Internals;
+using DxWorks.Hub.Sdk.Project;
 using Microsoft.Extensions.Options;
 
-namespace DxWorks.Hub.Sdk.Internals;
+namespace DxWorks.Hub.Sdk;
 
-internal class DxWorksHubClient : IDxWorksHubClient
+public class DxWorksHubClient : IDxWorksHubClient
 {
     private readonly RepositoryManager _repositoryManager;
 
