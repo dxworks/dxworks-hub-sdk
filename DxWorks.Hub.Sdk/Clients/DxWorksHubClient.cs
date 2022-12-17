@@ -2,9 +2,9 @@
 using DxWorks.Hub.Sdk.Project;
 using Microsoft.Extensions.Options;
 
-namespace DxWorks.Hub.Sdk;
+namespace DxWorks.Hub.Sdk.Clients;
 
-public class DxWorksHubClient : IDxWorksHubClient
+internal class DxWorksHubClient : IDxWorksHubClient
 {
     private readonly RepositoryManager _repositoryManager;
 
@@ -39,7 +39,7 @@ public class DxWorksHubClient : IDxWorksHubClient
             : _repositoryManager.DownloadRepositoryAsync(cancellationToken);
     }
 
-    public IEnumerable<DxWorksProject> GetProjects()
+    public IEnumerable<DxWorksProject> GetRawProjects()
     {
         return _repositoryManager.GetProjects();
     }

@@ -1,4 +1,4 @@
-﻿using DxWorks.Hub.Sdk.Internals;
+﻿using DxWorks.Hub.Sdk.Clients;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -11,7 +11,7 @@ public static class DxWorksHubSdkExtensions
     {
         services.AddOptions<DxWorksHubSdkOptions>()
             .Configure(options => { configureOptionsAction?.Invoke(options); });
-        services.TryAddSingleton<IDxWorksHubClient, DxWorksHubClient>();
+        services.TryAddSingleton<IScriptBeeClient, ScriptBeeClient>();
 
         return services;
     }

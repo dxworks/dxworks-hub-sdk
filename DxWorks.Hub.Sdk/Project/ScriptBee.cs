@@ -1,8 +1,8 @@
 ﻿namespace DxWorks.Hub.Sdk.Project;
 
-public record ScriptBee(List<ScriptBeeVersion> Versions)
+public record ScriptBee(string? Id, string Type, List<ScriptBeeVersion> Versions)
 {
-    public ScriptBee() : this(new List<ScriptBeeVersion>())
+    public ScriptBee() : this(null!, null!, new List<ScriptBeeVersion>())
     {
     }
 }
@@ -11,19 +11,11 @@ public record ScriptBeeVersion(
     Version Version,
     string Name,
     string SourceCode,
-    string Asset,
-    List<ExtensionPoint>? ExtensionPoints,
-    Dictionary<string, string>? Requires
+    string Manifest,
+    string Asset
 )
 {
-    public ScriptBeeVersion() : this(null!, null!, null!, null!, new(), new())
-    {
-    }
-}
-
-public record ExtensionPoint(string Kind, Version Version)
-{
-    public ExtensionPoint() : this(null!, null!)
+    public ScriptBeeVersion() : this(null!, null!, null!, null!, null!)
     {
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DxWorks.Hub.Sdk;
+using DxWorks.Hub.Sdk.Clients;
 using Microsoft.Extensions.DependencyInjection;
 
 var serviceCollection = new ServiceCollection();
@@ -7,13 +8,28 @@ serviceCollection.AddDxWorksHubSdk();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
-var dxWorksHubClient = serviceProvider.GetRequiredService<IDxWorksHubClient>();
+var client = serviceProvider.GetRequiredService<IScriptBeeClient>();
 
-dxWorksHubClient.UpdateRepository();
+client.UpdateRepository();
 
-var dxWorksProjects = dxWorksHubClient.GetProjects();
+var dxWorksProjects = client.GetRawProjects();
 
 foreach (var dxWorksProject in dxWorksProjects)
 {
     Console.WriteLine(dxWorksProject);
+}
+
+Console.WriteLine();
+Console.WriteLine("ScriptBee projects:");
+Console.WriteLine();
+
+var scriptBeeProjects = client.GetScriptBeeProjects();
+
+foreach (var scriptBeeProject in scriptBeeProjects)
+{
+    Console.WriteLine(scriptBeeProject);
+    foreach (var version in scriptBeeProject.Versions)
+    {
+        Console.WriteLine(version.DownloadUrl);
+    }
 }

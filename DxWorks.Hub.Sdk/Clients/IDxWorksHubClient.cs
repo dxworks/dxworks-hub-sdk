@@ -1,6 +1,6 @@
 ﻿using DxWorks.Hub.Sdk.Project;
 
-namespace DxWorks.Hub.Sdk;
+namespace DxWorks.Hub.Sdk.Clients;
 
 public interface IDxWorksHubClient
 {
@@ -10,5 +10,5 @@ public interface IDxWorksHubClient
 
     public Task UpdateRepositoryAsync(CancellationToken cancellationToken = default);
 
-    public IEnumerable<DxWorksProject> GetProjects();
+    public IEnumerable<DxWorksProject> GetRawProjects();
 }
