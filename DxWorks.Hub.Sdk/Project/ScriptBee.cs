@@ -12,7 +12,8 @@ public record ScriptBeeVersion(
     string Name,
     string SourceCode,
     string Manifest,
-    string Asset
+    string Asset,
+    string? Tag = null
 )
 {
     public ScriptBeeVersion() : this(null!, null!, null!, null!, null!)

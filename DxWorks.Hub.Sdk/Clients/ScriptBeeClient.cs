@@ -27,14 +27,23 @@ internal sealed class ScriptBeeClient : DxWorksHubClient, IScriptBeeClient
 
     private static ScriptBeeProjectVersion GetScriptBeeProjectVersion(ScriptBeeVersion scriptBeeVersion)
     {
-        var downloadUrl = GetDownloadUrl(scriptBeeVersion.Name, scriptBeeVersion.Version, scriptBeeVersion.Asset);
+        var downloadUrl = GetDownloadUrl(scriptBeeVersion);
 
         return new ScriptBeeProjectVersion(scriptBeeVersion.Version, scriptBeeVersion.SourceCode,
             scriptBeeVersion.Manifest, downloadUrl);
     }
 
-    private static string GetDownloadUrl(string name, Version version, string asset)
+    private static string GetDownloadUrl(ScriptBeeVersion scriptBeeVersion)
     {
-        return $"https://github.com/{name}/releases/download/v{version}/{asset}";
+        var name = scriptBeeVersion.Name;
+        var tag = scriptBeeVersion.Version.ToString();
+        if (!string.IsNullOrEmpty(scriptBeeVersion.Tag))
+        {
+            tag = scriptBeeVersion.Tag;
+        }
+
+        var asset = scriptBeeVersion.Asset;
+        
+        return $"https://github.com/{name}/releases/download/{tag}/{asset}";
     }
 }
