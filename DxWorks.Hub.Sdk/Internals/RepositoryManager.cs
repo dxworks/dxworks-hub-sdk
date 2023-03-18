@@ -26,29 +26,31 @@ internal class RepositoryManager
         Repository.Clone(_repositoryPath, _workingDirectory);
     }
 
-    public Task DownloadRepositoryAsync(CancellationToken cancellationToken = default)
+    public async Task DownloadRepositoryAsync(CancellationToken cancellationToken = default)
     {
-        return Task.Run(DownloadRepository, cancellationToken);
+        await Task.Run(DownloadRepository, cancellationToken);
     }
 
     public void UpdateRepository()
     {
         using var repository = new Repository(_workingDirectory);
 
-        var branch = repository.Branches["origin/main"];
+        var trackedBranch = repository.Branches["origin/main"];
 
-        if (branch is not null)
+        if (trackedBranch is not null)
         {
-            Commands.Checkout(repository, branch, new CheckoutOptions
+            repository.Reset(ResetMode.Hard, trackedBranch.Tip);
+
+            Commands.Checkout(repository, trackedBranch, new CheckoutOptions
             {
                 CheckoutModifiers = CheckoutModifiers.Force
             });
         }
     }
 
-    public Task UpdateRepositoryAsync(CancellationToken cancellationToken = default)
+    public async Task UpdateRepositoryAsync(CancellationToken cancellationToken = default)
     {
-        return Task.Run(UpdateRepository, cancellationToken);
+        await Task.Run(UpdateRepository, cancellationToken);
     }
 
     public void RemoveRepository()

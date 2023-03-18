@@ -32,11 +32,16 @@ internal class DxWorksHubClient : IDxWorksHubClient
         }
     }
 
-    public Task UpdateRepositoryAsync(CancellationToken cancellationToken = default)
+    public async Task UpdateRepositoryAsync(CancellationToken cancellationToken = default)
     {
-        return _repositoryManager.IsRepositoryInitialized()
-            ? _repositoryManager.UpdateRepositoryAsync(cancellationToken)
-            : _repositoryManager.DownloadRepositoryAsync(cancellationToken);
+        if (_repositoryManager.IsRepositoryInitialized())
+        {
+            await _repositoryManager.UpdateRepositoryAsync(cancellationToken);
+        }
+        else
+        {
+            await _repositoryManager.DownloadRepositoryAsync(cancellationToken);
+        }
     }
 
     public IEnumerable<DxWorksProject> GetRawProjects()
