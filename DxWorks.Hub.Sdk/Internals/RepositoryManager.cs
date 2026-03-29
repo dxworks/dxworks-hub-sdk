@@ -3,27 +3,22 @@ using LibGit2Sharp;
 
 namespace DxWorks.Hub.Sdk.Internals;
 
-internal class RepositoryManager
+internal class RepositoryManager(string repositoryPath, string workingDirectory, string branchName)
 {
-    private readonly string _repositoryPath;
-    private readonly string _workingDirectory;
-
-    public RepositoryManager(string repositoryPath, string workingDirectory)
-    {
-        _repositoryPath = repositoryPath;
-        _workingDirectory = workingDirectory;
-    }
-
     public bool IsRepositoryInitialized()
     {
-        var folderExists = Directory.Exists(Path.Combine(_workingDirectory));
+        var folderExists = Directory.Exists(Path.Combine(workingDirectory));
 
-        return folderExists && Repository.IsValid(_workingDirectory);
+        return folderExists && Repository.IsValid(workingDirectory);
     }
 
     public void DownloadRepository()
     {
-        Repository.Clone(_repositoryPath, _workingDirectory);
+        Directory.CreateDirectory(workingDirectory);
+        Repository.Clone(repositoryPath, workingDirectory, new CloneOptions
+        {
+            BranchName = branchName
+        });
     }
 
     public async Task DownloadRepositoryAsync(CancellationToken cancellationToken = default)
@@ -33,19 +28,21 @@ internal class RepositoryManager
 
     public void UpdateRepository()
     {
-        using var repository = new Repository(_workingDirectory);
+        using var repository = new Repository(workingDirectory);
 
-        var trackedBranch = repository.Branches["origin/main"];
+        var trackedBranch = repository.Branches[$"origin/{branchName}"];
 
-        if (trackedBranch is not null)
+        if (trackedBranch is null)
         {
-            repository.Reset(ResetMode.Hard, trackedBranch.Tip);
-
-            Commands.Checkout(repository, trackedBranch, new CheckoutOptions
-            {
-                CheckoutModifiers = CheckoutModifiers.Force
-            });
+            return;
         }
+        
+        repository.Reset(ResetMode.Hard, trackedBranch.Tip);
+
+        Commands.Checkout(repository, trackedBranch, new CheckoutOptions
+        {
+            CheckoutModifiers = CheckoutModifiers.Force
+        });
     }
 
     public async Task UpdateRepositoryAsync(CancellationToken cancellationToken = default)
@@ -55,12 +52,12 @@ internal class RepositoryManager
 
     public void RemoveRepository()
     {
-        Directory.Delete(_workingDirectory, true);
+        Directory.Delete(workingDirectory, true);
     }
 
     public IEnumerable<DxWorksProject> GetProjects()
     {
-        var projects = Directory.GetFiles(ConfigFolder.GetProjectsFolder(_workingDirectory));
+        var projects = Directory.GetFiles(ConfigFolder.GetProjectsFolder(workingDirectory));
 
         return projects.Select(ManifestReader.ReadManifest);
     }

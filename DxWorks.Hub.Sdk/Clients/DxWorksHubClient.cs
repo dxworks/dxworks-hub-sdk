@@ -8,11 +8,15 @@ internal class DxWorksHubClient : IDxWorksHubClient
 {
     private readonly RepositoryManager _repositoryManager;
 
-    public DxWorksHubClient(IOptions<DxWorksHubSdkOptions> options)
+    protected DxWorksHubClient(IOptions<DxWorksHubSdkOptions> options)
     {
         var sdkOptions = options.Value;
 
-        _repositoryManager = new RepositoryManager(sdkOptions.RepositoryUrl, ConfigFolder.GetHubFolder());
+        _repositoryManager = new RepositoryManager(
+            sdkOptions.RepositoryUrl,
+            sdkOptions.HubDownloadFolder ?? ConfigFolder.GetHubFolder(),
+            sdkOptions.MainBranch
+        );
     }
 
     public void RemoveRepository()
