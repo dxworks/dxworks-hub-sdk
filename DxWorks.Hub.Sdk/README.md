@@ -49,9 +49,3 @@ IDxWorksHubClient client;
 
 IEnumerable<DxWorksProject> projects = client.GetProjects();
 ```
-
-## Pack
-
-```shell
-dotnet pack -c Release -o pack -p:PackageVersion=1.0.0
-```
