@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DxWorks.Hub.Sdk.Example/DxWorks.Hub.Sdk.Example.csproj" />
+  <Project Path="DxWorks.Hub.Sdk/DxWorks.Hub.Sdk.csproj" />
+</Solution>
