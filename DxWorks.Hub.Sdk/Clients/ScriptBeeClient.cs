@@ -3,12 +3,9 @@ using Microsoft.Extensions.Options;
 
 namespace DxWorks.Hub.Sdk.Clients;
 
-internal sealed class ScriptBeeClient : DxWorksHubClient, IScriptBeeClient
+internal sealed class ScriptBeeClient(IOptions<DxWorksHubSdkOptions> options)
+    : DxWorksHubClient(options), IScriptBeeClient
 {
-    public ScriptBeeClient(IOptions<DxWorksHubSdkOptions> options) : base(options)
-    {
-    }
-
     public IEnumerable<ScriptBeeProject> GetScriptBeeProjects()
     {
         return GetRawProjects()
@@ -43,7 +40,7 @@ internal sealed class ScriptBeeClient : DxWorksHubClient, IScriptBeeClient
         }
 
         var asset = scriptBeeVersion.Asset;
-        
+
         return $"https://github.com/{name}/releases/download/{tag}/{asset}";
     }
 }

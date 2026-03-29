@@ -5,4 +5,6 @@ public class DxWorksHubSdkOptions
     public string RepositoryUrl { get; set; } = "https://github.com/dxworks/dxworks-hub.git";
 
     public string MainBranch { get; set; } = "main";
+
+    public string? HubDownloadFolder { get; set; }
 }
